@@ -1,0 +1,117 @@
+/* components/ButtonLoading.module.css */
+.button {
+  position: relative;
+  height: 56px;
+  padding: 0 32px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  font-family: inherit;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.primary {
+  background: linear-gradient(135deg, #0F62FE, #0A47C4);
+  color: white;
+  box-shadow: 0 4px 12px rgba(15, 98, 254, 0.25);
+}
+
+.primary:hover:not(:disabled) {
+  box-shadow: 0 6px 20px rgba(15, 98, 254, 0.35);
+  transform: translateY(-2px);
+}
+
+.orange {
+  background: linear-gradient(135deg, #FF6B35, #FF8C42);
+  color: white;
+  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.3);
+}
+
+.orange:hover:not(:disabled) {
+  box-shadow: 0 6px 24px rgba(255, 107, 53, 0.4);
+  transform: translateY(-2px);
+}
+
+.success {
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: white;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.secondary {
+  background: white;
+  color: #0F62FE;
+  border: 2px solid #0F62FE;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.secondary:hover:not(:disabled) {
+  background: #f8f9fa;
+}
+
+.buttonText {
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+.button.loading .buttonText {
+  opacity: 0;
+}
+
+.loadingContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingText {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .button {
+    padding: 0 24px;
+    height: 52px;
+    font-size: 15px;
+  }
+
+  .spinner {
+    width: 28px;
+    height: 28px;
+  }
+
+  .loadingText {
+    font-size: 13px;
+  }
+}
