@@ -41,19 +41,19 @@ export default function StepTwo() {
             
             // Mock data structure (adjust based on your API response)
             const mockVideoData = {
-              title: response.title || "Amazing Dance Challenge - Viral TikTok Compilation",
+              title: response.title || "",
               thumbnail: response.thumbnail || "https://via.placeholder.com/640x360/667eea/ffffff?text=Video+Preview",
-              author: response.author || "@dancecrew",
-              platform: savedData.platform || "TikTok",
-              views: response.views || "2.3M",
-              duration: response.duration || "0:45",
+              author: response.author || "",
+              platform: savedData.platform || "",
+              views: response.views || "",
+              duration: response.duration || "",
               formats: response.formats || [
                 {
                   id: 'hd',
                   label: 'HD Video',
                   quality: '1080p',
                   format: 'MP4',
-                  size: '24.5 MB',
+                  // size: '24.5 MB',
                   url: response.hdUrl || '#'
                 },
                 {
@@ -61,7 +61,7 @@ export default function StepTwo() {
                   label: 'SD Video',
                   quality: '720p',
                   format: 'MP4',
-                  size: '12.8 MB',
+                  // size: '12.8 MB',
                   url: response.sdUrl || '#'
                 },
                 {
@@ -69,7 +69,7 @@ export default function StepTwo() {
                   label: 'MP3 Audio',
                   quality: '320kbps',
                   format: 'MP3',
-                  size: '3.2 MB',
+                  // size: '3.2 MB',
                   url: response.audioUrl || '#'
                 }
               ]
@@ -224,7 +224,7 @@ export default function StepTwo() {
                   <div className={styles.duration}>{videoData?.duration}</div>
                 </div>
 
-                {/* Video Info */}
+                Video Info
                 <div className={styles.videoInfo}>
                   <h2 className={styles.videoTitle}>{videoData?.title}</h2>
                   <div className={styles.videoMeta}>
@@ -235,13 +235,13 @@ export default function StepTwo() {
                       {videoData?.platform}
                     </div>
                     <span className={styles.author}>{videoData?.author}</span>
-                    <span className={styles.views}>
+                    {/* <span className={styles.views}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                         <circle cx="12" cy="12" r="3"/>
                       </svg>
                       {videoData?.views} views
-                    </span>
+                    </span> */}
                   </div>
                 </div>
 

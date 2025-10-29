@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -16,20 +17,16 @@ export default function Navbar() {
       <div className={styles.container}>
         {/* Logo */}
         <Link href="/" className={styles.logo} onClick={closeMenu}>
-          <div className={styles.logoIcon}>
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-              <rect width="32" height="32" rx="8" fill="url(#logoGradient)" />
-              <path d="M16 8L12 16L16 24L20 16L16 8Z" fill="white" />
-              <defs>
-                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#0F62FE" />
-                  <stop offset="100%" stopColor="#0A47C4" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-          <span className={styles.logoText}>VidFetch</span>
-        </Link>
+      <div className={styles.logoIcon}>
+        {/* <Image
+          src="/favicon.png"     // ✅ from public/favicon.png
+          alt="Logo"
+          width={64}
+          height={64}
+        /> */}
+      </div>
+      <span className={styles.logoText}>Downlyvieo</span>
+    </Link>
 
         {/* Navigation Links */}
         <div

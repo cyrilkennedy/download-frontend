@@ -9,7 +9,7 @@ export default function Footer() {
         <div className={styles.content}>
           {/* Brand Section */}
           <div className={styles.brand}>
-            <h3 className={styles.brandName}>VidFetch</h3>
+            <h3 className={styles.brandName}>Downlyvieo</h3>
             <p className={styles.brandTagline}>
               Download videos from TikTok, Instagram, Facebook, and Twitter without watermarks.
             </p>
@@ -43,7 +43,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className={styles.bottom}>
           <p className={styles.copyright}>
-            © {currentYear} VidFetch. All rights reserved.
+            © {currentYear} Downlyvieo. All rights reserved.
           </p>
           <div className={styles.social}>
             <a href="#" className={styles.socialLink} aria-label="Twitter">

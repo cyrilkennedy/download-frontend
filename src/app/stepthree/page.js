@@ -117,7 +117,7 @@ export default function StepThree() {
               quality: '1080p',
               format: 'MP4',
               url: response.videoUrl || savedData.url,
-              size: '24.5 MB',
+              // size: '24.5 MB',
             },
           ],
         };

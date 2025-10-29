@@ -62,7 +62,7 @@ export default function LoadingScreen({ duration = 2000, onComplete }) {
         </svg>
 
         {/* DownlyVideo Wordmark */}
-        <h1 className={styles.wordmark}>DownlyVideo</h1>
+        <h1 className={styles.wordmark}>DownlyVieo</h1>
 
         {/* Loading Dots */}
         <div className={styles.dotsContainer}>

@@ -32,8 +32,8 @@
 }
 
 .logoIcon {
-  width: 32px;
-  height: 32px;
+  /* width: 90px; or 4rem, depending on look */
+  /* height: 90px; */
 }
 
 .logoText {
@@ -156,5 +156,22 @@
   .mobileCTA {
     display: inline-block;
     margin-top: 8px;
+  }
+}
+
+/* Hide mobile CTA by default */
+.mobileCTA {
+  display: none;
+}
+
+/* Show mobile CTA on small screens */
+@media (max-width: 768px) {
+  .mobileCTA {
+    display: inline-block;
+  }
+
+  /* Hide the desktop button on small screens */
+  .ctaButton:not(.mobileCTA) {
+    display: none;
   }
 }

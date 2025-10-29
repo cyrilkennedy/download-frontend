@@ -6,9 +6,23 @@ import Footer from '@/components/Footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'VidFetch - Download Videos Without Watermarks',
+  
+ 
+
+
+  title: 'Downlyvieo - Download Videos Without Watermarks',
   description: 'Fast, free, and easy. Download from TikTok, Instagram, Facebook, and Twitter in HD quality.',
+
+   icons: {
+    icon: "/favicon.png",
+  },
 };
+<head>
+  <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32" />
+</head>
+
+
+
 
 export default function RootLayout({ children }) {
   return (
