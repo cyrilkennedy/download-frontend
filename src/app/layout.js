@@ -27,6 +27,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+     <head>
+<meta name="monetag" content="7d794aa7ba57d4b93636821533951f14"></meta>
+
+     </head>
       <body className={inter.className}>
         <Navbar />
         <main className="main-content">
