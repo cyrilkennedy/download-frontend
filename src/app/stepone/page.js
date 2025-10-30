@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import LoadingScreen from '@/components/LoadingScreen';
 import ButtonLoading from '@/components/ButtonLoading';
-import { detectPlatform, isValidUrl, saveVideoData } from '@/lib/helper';
+import Steptwo from '../steptwo/page';
+
 import styles from './page.module.css';
 
 export default function StepOne() {
@@ -13,6 +14,7 @@ export default function StepOne() {
   const [isDetecting, setIsDetecting] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
+  const [totalItems, setTotalItems] = useState(0); // New state for total items
   const router = useRouter();
 
   useEffect(() => {
@@ -25,7 +27,47 @@ export default function StepOne() {
       setUrl(savedUrl);
       handleUrlChange(savedUrl);
     }
+
+    // Load total items if exists
+    const savedTotal = localStorage.getItem('vidfetch_total_items');
+    if (savedTotal !== null) {
+      const parsed = parseInt(savedTotal, 10);
+      if (!Number.isNaN(parsed)) setTotalItems(parsed);
+    }
   }, []);
+
+  // Persist video data for next steps
+  const saveVideoData = ({ url, platform }) => {
+    try {
+      const data = { url, platform, savedAt: Date.now(), totalItems }; // Include totalItems
+      localStorage.setItem('vidfetch_data', JSON.stringify(data));
+      localStorage.setItem('vidfetch_url', url);
+      localStorage.setItem('vidfetch_platform', platform || '');
+      localStorage.setItem('vidfetch_total_items', String(totalItems)); // Store total items
+    } catch (err) {
+      // fail silently but log for debugging
+      // eslint-disable-next-line no-console
+      console.error('Failed to save video data', err);
+    }
+  };
+
+  const isValidUrl = (string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  };
+
+  const detectPlatform = (url) => {
+    const lowerUrl = url.toLowerCase();
+    if (lowerUrl.includes('tiktok.com')) return 'TikTok';
+    if (lowerUrl.includes('instagram.com')) return 'Instagram';
+    if (lowerUrl.includes('facebook.com')) return 'Facebook';
+    if (lowerUrl.includes('twitter.com')) return 'Twitter';
+    return null;
+  };
 
   const handleUrlChange = (value) => {
     setUrl(value);
@@ -66,8 +108,9 @@ export default function StepOne() {
     saveVideoData({ url, platform });
     
     // Navigate to step 2
+    router.prefetch('/steptwo'); // Pre-fetch the next page
     setTimeout(() => {
-      router.push('/steptwo');
+      router.push('/steptwo'); // Use router.push for navigation
     }, 1500);
   };
 

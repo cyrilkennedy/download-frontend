@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styles from './ProgressOverlay.module.css';
 
 export default function ProgressOverlay({ 
@@ -13,6 +13,19 @@ export default function ProgressOverlay({
 }) {
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+  
+  // ✅ Use ref to avoid dependency issues
+  const onCompleteRef = useRef(onComplete);
+  const onCancelRef = useRef(onCancel);
+
+  // ✅ Keep refs updated
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
+  useEffect(() => {
+    onCancelRef.current = onCancel;
+  }, [onCancel]);
 
   useEffect(() => {
     if (!visible) {
@@ -28,7 +41,9 @@ export default function ProgressOverlay({
           clearInterval(interval);
           setIsComplete(true);
           setTimeout(() => {
-            if (onComplete) onComplete();
+            if (onCompleteRef.current) {
+              onCompleteRef.current();
+            }
           }, 1500);
           return 100;
         }
@@ -39,7 +54,7 @@ export default function ProgressOverlay({
     }, 300);
     
     return () => clearInterval(interval);
-  }, [visible, onComplete]);
+  }, [visible]); // ✅ Only depend on visible
 
   if (!visible) return null;
 
@@ -56,7 +71,7 @@ export default function ProgressOverlay({
 
   return (
     <div className={styles.overlay}>
-      <div className={styles.backdrop} onClick={onCancel}></div>
+      <div className={styles.backdrop} onClick={() => onCancelRef.current?.()}></div>
       
       <div className={`${styles.card} ${isComplete ? styles.success : ''}`}>
         {/* Header */}
@@ -147,8 +162,8 @@ export default function ProgressOverlay({
         </div>
 
         {/* Cancel Button */}
-        {!isComplete && onCancel && (
-          <button className={styles.cancelButton} onClick={onCancel}>
+        {!isComplete && onCancelRef.current && (
+          <button className={styles.cancelButton} onClick={() => onCancelRef.current?.()}>
             Cancel
           </button>
         )}

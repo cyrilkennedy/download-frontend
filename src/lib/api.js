@@ -41,65 +41,90 @@ export async function fetchVideoMetadata(videoUrl) {
 }
 
 /**
- * Download video via proxy (fixes CORS issues)
+ * Download video via proxy (fixes CORS issues) - WITH RETRY LOGIC
  * @param {string} videoUrl - Direct video URL
  * @param {string} filename - Desired filename
  */
 export async function proxyVideoDownload(videoUrl, filename = "video") {
-  try {
-    console.log("📥 Starting proxy download for:", videoUrl);
+  const MAX_RETRIES = 2;
+  const RETRY_DELAY = 3000; // 3 seconds
+  
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      console.log(`📥 Download attempt ${attempt}/${MAX_RETRIES} for:`, videoUrl);
 
-    const response = await fetch(`${API_BASE_URL}/api/proxy`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ url: videoUrl }),
-    });
+      const response = await fetch(`${API_BASE_URL}/api/proxy`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url: videoUrl }),
+        signal: AbortSignal.timeout(60000), // 60 second timeout
+      });
 
-    console.log("📡 Proxy response status:", response.status);
+      console.log("📡 Proxy response status:", response.status);
 
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error("❌ Proxy backend error:", errText);
-      throw new Error(`Proxy download failed: ${response.status} - ${errText}`);
+      if (!response.ok) {
+        const errText = await response.text();
+        console.error(`❌ Attempt ${attempt} failed:`, errText);
+        
+        // If it's a cold start (500/503), retry
+        if ((response.status === 500 || response.status === 503) && attempt < MAX_RETRIES) {
+          console.log(`⏳ Server might be waking up. Retrying in ${RETRY_DELAY/1000}s...`);
+          await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+          continue; // Retry
+        }
+        
+        throw new Error(`Proxy download failed: ${response.status} - ${errText}`);
+      }
+
+      // Check content type
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const errorData = await response.json();
+        console.error("⚠️ Proxy backend error JSON:", errorData);
+        throw new Error(errorData.message || "Backend returned an error");
+      }
+
+      // Convert response to Blob (video file)
+      const blob = await response.blob();
+      
+      if (!blob || blob.size === 0) {
+        throw new Error('Received empty file from proxy');
+      }
+      
+      console.log('✅ Received blob, size:', blob.size);
+      
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      // Trigger browser download
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = `${filename}.mp4`;
+      document.body.appendChild(link);
+      link.click();
+      
+      // Cleanup
+      setTimeout(() => {
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+      }, 100);
+
+      console.log("✅ Download completed successfully!");
+      return { success: true };
+      
+    } catch (error) {
+      console.error(`❌ Attempt ${attempt} error:`, error);
+      
+      // If last attempt, throw error
+      if (attempt === MAX_RETRIES) {
+        throw new Error(`Failed to download video after ${MAX_RETRIES} attempts: ${error.message}`);
+      }
+      
+      // Otherwise, wait and retry
+      console.log(`⏳ Retrying in ${RETRY_DELAY/1000}s...`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
     }
-
-    // Check content type
-    const contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-      const errorData = await response.json();
-      console.error("⚠️ Proxy backend error JSON:", errorData);
-      throw new Error(errorData.message || "Backend returned an error");
-    }
-
-    // Convert response to Blob (video file)
-    const blob = await response.blob();
-    
-    if (!blob || blob.size === 0) {
-      throw new Error('Received empty file from proxy');
-    }
-    
-    console.log('✅ Received blob, size:', blob.size);
-    
-    const blobUrl = window.URL.createObjectURL(blob);
-
-    // Trigger browser download
-    const link = document.createElement("a");
-    link.href = blobUrl;
-    link.download = `${filename}.mp4`;
-    document.body.appendChild(link);
-    link.click();
-    
-    // Cleanup
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(blobUrl);
-
-    console.log("✅ Download completed successfully!");
-    return { success: true };
-  } catch (error) {
-    console.error("❌ Proxy download error:", error);
-    throw new Error(`Failed to download video: ${error.message}`);
   }
 }
 
