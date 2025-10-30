@@ -34,6 +34,7 @@ export default function StepThree() {
       }
 
       console.log('✅ Loaded video data in Step 3:', savedData);
+      // new
       
       setVideoData(savedData.videoData);
       setSelectedFormat(savedData.selectedFormat || 'hd');
@@ -186,7 +187,7 @@ export default function StepThree() {
       setTimeout(() => window.URL.revokeObjectURL(downloadUrl), 100);
 
       console.log("Download completed successfully!");
-      alert("Download started! Check your downloads folder.");
+      // alert("Download started! Check your downloads folder.");
 
       // ---- TRIGGER POP-UNDER AFTER DOWNLOAD ----
       setTimeout(() => {
