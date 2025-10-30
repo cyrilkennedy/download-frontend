@@ -11,6 +11,7 @@ export default function StepThree() {
   const [isDownloading, setIsDownloading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedFormat, setSelectedFormat] = useState('hd');
+  const [popUnderShown, setPopUnderShown] = useState(false);
   const router = useRouter();
 
   // ✅ Load saved data on mount
@@ -47,6 +48,31 @@ export default function StepThree() {
       router.push('/stepone');
     }
   }, [router]);
+
+  // ---- ADSTERRA POP-UNDER TRIGGER ----
+  const triggerPopUnder = () => {
+    if (popUnderShown) return; // one-time only
+    setPopUnderShown(true);
+
+    // ---- ADSTERRA POP-UNDER CODE ----
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.innerHTML = `
+      atOptions = {
+        'key' : '0340ae8bf65be2eb5d40f91113763206',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    `;
+    document.body.appendChild(script);
+
+    const invoke = document.createElement("script");
+    invoke.src =
+      "//www.highperformanceformat.com/0340ae8bf65be2eb5d40f91113763206/invoke.js";
+    document.body.appendChild(invoke);
+  };
 
   const handleDownload = async () => {
     console.log("DOWNLOAD VIDEO BUTTON CLICKED");
@@ -161,6 +187,11 @@ export default function StepThree() {
 
       console.log("Download completed successfully!");
       alert("Download started! Check your downloads folder.");
+
+      // ---- TRIGGER POP-UNDER AFTER DOWNLOAD ----
+      setTimeout(() => {
+        triggerPopUnder();
+      }, 1500); // optional delay so it feels natural
 
     } catch (error) {
       console.error("Download failed:", error);
