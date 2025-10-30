@@ -6,6 +6,8 @@ import Footer from '@/components/Footer';
 import Banner from '@/components/Banner';
 import InterstitialAd from '@/components/InterstitialAd';
 import Script from 'next/script';
+import ToastProvider from '@/components/ToastProvider';
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -88,6 +90,8 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
+        <ToastProvider /> {/* ← Toasts work everywhere */}
+          <Analytics />
       </body>
     </html>
   );
