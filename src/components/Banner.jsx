@@ -1,26 +1,27 @@
 // components/Banner.jsx
+"use client";
 
-"use client";  // REQUIRED
 import dynamic from 'next/dynamic';
 
-const AdContainer = dynamic(() => import('./AdContainer'), { ssr: false });
-const NativeBanner = dynamic(() => import('./NativeBanner'), { ssr: false });
+const NativeAd = dynamic(() => import('./NativeAd'), { ssr: false });
+
+const ids = {
+  header: 'container-header-native',
+  middle: 'container-0e1640332d1c1c66fd5db9d9651057fa', // your working native ID
+  footer: 'container-footer-native',
+};
 
 export default function Banner({ position }) {
   return (
     <div
       className={`
-        ${position === "header" ? "py-2 bg-gray-100" : ""}
-        ${position === "middle" ? "my-6" : ""}
-        ${position === "footer" ? "mt-8 py-4 bg-gray-100" : ""}
-        flex justify-center items-center
+        ${position === "header" ? "py-1 bg-gray-50" : ""}
+        ${position === "middle" ? "my-4" : ""}
+        ${position === "footer" ? "mt-6 py-2 bg-gray-50" : ""}
+        flex justify-center
       `}
     >
-      {position === 'middle' ? (
-        <NativeBanner />
-      ) : (
-        <AdContainer zone="10115553" />
-      )}
+      <NativeAd id={ids[position]} minHeight={position === 'middle' ? 280 : 200} />
     </div>
   );
 }
