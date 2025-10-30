@@ -1,10 +1,9 @@
-"use client";
+
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ButtonLoading from "@/components/ButtonLoading";
 import { getVideoData, clearVideoData } from "@/lib/helper";
 import styles from "./page.module.css";
-import { toast } from "react-toastify";
 
 export default function StepThree() {
   const [videoData, setVideoData] = useState(null);
@@ -79,7 +78,7 @@ export default function StepThree() {
     console.log("DOWNLOAD VIDEO BUTTON CLICKED");
 
     if (!videoData) {
-      toast.error("No video data found!");
+      alert("No video data found!");
       return;
     }
 
@@ -97,7 +96,7 @@ export default function StepThree() {
     console.log("Selected format:", selectedFormatData);
 
     if (!videoUrl || videoUrl === "#" || videoUrl === "") {
-      toast.error("No valid video URL found!");
+      alert("No valid video URL found!");
       setIsDownloading(false);
       return;
     }
@@ -187,7 +186,7 @@ export default function StepThree() {
       setTimeout(() => window.URL.revokeObjectURL(downloadUrl), 100);
 
       console.log("Download completed successfully!");
-      toast.success("Download started! Check your downloads folder.");
+      // alert("Download started! Check your downloads folder.");
 
       // ---- TRIGGER POP-UNDER AFTER DOWNLOAD ----
       setTimeout(() => {
@@ -208,7 +207,7 @@ export default function StepThree() {
           : error.message;
       }
 
-      toast.error(userMessage);
+      alert(userMessage);
       setError(userMessage);
     } finally {
       setIsDownloading(false);
