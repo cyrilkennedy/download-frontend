@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import ButtonLoading from "@/components/ButtonLoading";
 import { getVideoData, clearVideoData } from "@/lib/helper";
 import styles from "./page.module.css";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function StepThree() {
   const [videoData, setVideoData] = useState(null);
@@ -18,7 +19,7 @@ export default function StepThree() {
   useEffect(() => {
     try {
       const rawData = localStorage.getItem('vidfetch_data');
-      
+   
       if (!rawData) {
         console.warn('No data found, redirecting to step one');
         router.push('/stepone');
@@ -34,6 +35,7 @@ export default function StepThree() {
       }
 
       console.log('✅ Loaded video data in Step 3:', savedData);
+      // new
       
       setVideoData(savedData.videoData);
       setSelectedFormat(savedData.selectedFormat || 'hd');
@@ -78,7 +80,7 @@ export default function StepThree() {
     console.log("DOWNLOAD VIDEO BUTTON CLICKED");
 
     if (!videoData) {
-      alert("No video data found!");
+      toast.error("No video data found!");
       return;
     }
 
@@ -96,7 +98,7 @@ export default function StepThree() {
     console.log("Selected format:", selectedFormatData);
 
     if (!videoUrl || videoUrl === "#" || videoUrl === "") {
-      alert("No valid video URL found!");
+      toast.error("No valid video URL found!");
       setIsDownloading(false);
       return;
     }
@@ -186,7 +188,7 @@ export default function StepThree() {
       setTimeout(() => window.URL.revokeObjectURL(downloadUrl), 100);
 
       console.log("Download completed successfully!");
-      // alert("Download started! Check your downloads folder.");
+      toast.error("Download started! Check your downloads folder.");
 
       // ---- TRIGGER POP-UNDER AFTER DOWNLOAD ----
       setTimeout(() => {
