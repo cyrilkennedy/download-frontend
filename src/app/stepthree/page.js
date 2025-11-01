@@ -188,7 +188,7 @@ export default function StepThree() {
       setTimeout(() => window.URL.revokeObjectURL(downloadUrl), 100);
 
       console.log("Download completed successfully!");
-      toast.success("Download started! Check your downloads folder.");
+      alert("Download started! Check your downloads folder.");
 
       // ---- TRIGGER POP-UNDER AFTER DOWNLOAD ----
       setTimeout(() => {
