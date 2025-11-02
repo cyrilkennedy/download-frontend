@@ -65,7 +65,7 @@ export default function StepOne() {
     if (lowerUrl.includes('tiktok.com')) return 'TikTok';
     if (lowerUrl.includes('instagram.com')) return 'Instagram';
     if (lowerUrl.includes('facebook.com')) return 'Facebook';
-    if (lowerUrl.includes('twitter.com')) return 'Twitter';
+    if (lowerUrl.includes('twitter.com') || lowerUrl.includes('x.com')) return 'Twitter';
     return null;
   };
 
