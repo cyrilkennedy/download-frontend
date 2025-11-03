@@ -72,6 +72,8 @@ export default function RootLayout({ children }) {
           theme="colored"
         />
 
+
+
         {/* Google Tag Manager */}
         <Script
           id="google-tag-manager"
