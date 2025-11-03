@@ -13,7 +13,7 @@ import Script from 'next/script';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'DownlyVideo – Download TikTok, Instagram, Facebook & Twitter Videos Without Watermark',
+  title: 'DownlyVieo – Download TikTok, Instagram, Facebook & Twitter Videos Without Watermark',
   description:
     'Free online video downloader for TikTok, Instagram (IG), Facebook, and X (Twitter). Paste your link and download any video in HD MP4 quality — fast, secure, and no watermark needed.',
   keywords: [
@@ -34,14 +34,14 @@ export const metadata = {
     title: 'DownlyVideo – Download Videos Without Watermarks',
     description:
       'Fast, free, and secure downloader for TikTok, Instagram, Facebook, and X videos in HD. Paste your link and download instantly — no watermark.',
-    url: 'https://downlyvideo.com',
-    siteName: 'DownlyVideo',
+    url: 'https://downlyvieo.com',
+    siteName: 'DownlyVieo',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'DownlyVideo – Download Videos Without Watermarks',
+        alt: 'DownlyVieo – Download Videos Without Watermarks',
       },
     ],
     locale: 'en_US',
@@ -49,7 +49,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'DownlyVideo – Download TikTok, Instagram, Facebook & X Videos',
+    title: 'DownlyVieo – Download TikTok, Instagram, Facebook & X Videos',
     description:
       'Download TikTok, Instagram, Facebook, and X (Twitter) videos for free in HD. No watermark, no app needed.',
     images: ['/og-image.png'],
