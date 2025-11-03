@@ -13,9 +13,47 @@ import Script from 'next/script';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Downlyvieo - Download Videos Without Watermarks',
-  description: 'Fast, free, and easy. Download from TikTok, Instagram, Facebook, and Twitter in HD quality.',
-  icons: { icon: "/favicon.png" },
+  title: 'DownlyVideo – Download TikTok, Instagram, Facebook & Twitter Videos Without Watermark',
+  description:
+    'Free online video downloader for TikTok, Instagram (IG), Facebook, and X (Twitter). Paste your link and download any video in HD MP4 quality — fast, secure, and no watermark needed.',
+  keywords: [
+    'download TikTok video',
+    'TikTok video downloader',
+    'download Instagram video',
+    'Instagram Reels downloader',
+    'download Facebook video',
+    'Facebook video saver',
+    'download Twitter video',
+    'X video downloader',
+    'HD video download',
+    'no watermark video downloader',
+    'free video downloader online',
+  ],
+  icons: { icon: '/favicon.png' },
+  openGraph: {
+    title: 'DownlyVideo – Download Videos Without Watermarks',
+    description:
+      'Fast, free, and secure downloader for TikTok, Instagram, Facebook, and X videos in HD. Paste your link and download instantly — no watermark.',
+    url: 'https://downlyvideo.com',
+    siteName: 'DownlyVideo',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'DownlyVideo – Download Videos Without Watermarks',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'DownlyVideo – Download TikTok, Instagram, Facebook & X Videos',
+    description:
+      'Download TikTok, Instagram, Facebook, and X (Twitter) videos for free in HD. No watermark, no app needed.',
+    images: ['/og-image.png'],
+  },
 };
 
 export default function RootLayout({ children }) {
