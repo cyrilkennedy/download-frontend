@@ -7,6 +7,7 @@ import ButtonLoading from '@/components/ButtonLoading';
 import ProgressOverlay from '@/components/ProgressOverlay';
 import { fetchVideoMetadata } from '@/lib/api';
 import styles from './page.module.css';
+import NativeAd from '@/components/NativeAd';
 
 export default function Steptwo() {
   const [showLoading, setShowLoading] = useState(true);
@@ -17,6 +18,16 @@ export default function Steptwo() {
   const [showProgress, setShowProgress] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+
+  
+// const [thumbUrl, setThumbUrl] = useState('/placeholder.jpg'); // fallback
+
+// useEffect(() => {
+//   if (videoData?.thumbnail) {
+//     const proxyUrl = `https://imgp.substack.com/fit-in/800x0/filters:no_upscale():format(jpg)/${encodeURIComponent(videoData.thumbnail)}`;
+//     setThumbUrl(proxyUrl);
+//   }
+// }, [videoData]);
 
   useEffect(() => {
     setTimeout(() => setShowLoading(false), 500);
@@ -216,11 +227,11 @@ export default function Steptwo() {
           ) : (
             <>
               <div className={styles.previewCard}>
-                <img src={videoData?.thumbnail} alt={videoData?.title} className={styles.thumbnail} />
+       <img src={videoData?.thumbnail} alt={videoData?.title} className={styles.thumbnail} />
                 <h2 className={styles.videoTitle}>{videoData?.title}</h2>
                 <p className={styles.videoAuthor}>by {videoData?.author}</p>
               </div>
-
+<NativeAd/>
               <div className={styles.formatSection}>
                 <h3 className={styles.formatTitle}>Choose Format</h3>
                 <div className={styles.formatGrid}>

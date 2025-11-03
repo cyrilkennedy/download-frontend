@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import ButtonLoading from "@/components/ButtonLoading";
 import { getVideoData, clearVideoData } from "@/lib/helper";
 import styles from "./page.module.css";
+import { toast } from 'react-toastify';
 
 export default function StepThree() {
   const [videoData, setVideoData] = useState(null);
@@ -13,6 +14,9 @@ export default function StepThree() {
   const [selectedFormat, setSelectedFormat] = useState('hd');
   const [popUnderShown, setPopUnderShown] = useState(false);
   const router = useRouter();
+
+
+ 
 
   // ✅ Load saved data on mount
   useEffect(() => {
@@ -96,7 +100,12 @@ export default function StepThree() {
     console.log("Selected format:", selectedFormatData);
 
     if (!videoUrl || videoUrl === "#" || videoUrl === "") {
-      alert("No valid video URL found!");
+      // alert("No valid video URL found!");
+
+        toast.error("No valid video URL found!", {
+  position: "top-right",
+  autoClose: 5000,
+});
       setIsDownloading(false);
       return;
     }
@@ -162,17 +171,28 @@ export default function StepThree() {
       }
 
       // Safe to call .blob()
-      let blob;
-      try {
-        blob = await response.blob();
-      } catch (err) {
-        console.error("Failed to parse blob:", err);
-        throw new Error("Failed to process video file");
-      }
+      // REPLACE: const blob = await response.blob();
+// WITH THIS:
+let blob;
+if (response.body) {
+  const total = parseInt(response.headers.get("content-length") || "0");
+  const reader = response.body.getReader();
+  const chunks = [];
+  let loaded = 0;
 
-      if (!blob || blob.size === 0) {
-        throw new Error("Downloaded file is empty");
-      }
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    loaded += value.length;
+    if (total > 0) {
+      setIsDownloading(`Downloading... ${Math.round((loaded / total) * 100)}%`);
+    }
+  }
+  blob = new Blob(chunks);
+} else {
+  blob = await response.blob();
+}
 
       // Trigger download
       const downloadUrl = window.URL.createObjectURL(blob);
@@ -186,7 +206,12 @@ export default function StepThree() {
       setTimeout(() => window.URL.revokeObjectURL(downloadUrl), 100);
 
       console.log("Download completed successfully!");
-      alert("Download started! Check your downloads folder.");
+      // alert("Download started!.");
+      toast.success("Download started! 🎉", {
+  position: "top-right",
+  autoClose: 3000,
+  
+});
 
       // ---- TRIGGER POP-UNDER AFTER DOWNLOAD ----
       setTimeout(() => {
@@ -207,27 +232,44 @@ export default function StepThree() {
           : error.message;
       }
 
-      alert(userMessage);
+      // alert(userMessage);
+        toast.error(userMessage, {
+  position: "top-right",
+  autoClose: 5000,
+});
       setError(userMessage);
     } finally {
       setIsDownloading(false);
     }
   };
 
-  // ✅ Go back to Step One
-  const handleDownloadAnother = () => {
-    console.log("🔄 DOWNLOAD ANOTHER VIDEO BUTTON CLICKED");
-    try {
-      clearVideoData();
-      localStorage.removeItem("vidfetch_data");
-      localStorage.removeItem("vidfetch_completed");
-      console.log('✅ Cleared all data, returning to step one');
-    } catch (e) {
-      console.warn("Failed to clear data", e);
-    }
-    router.push("/stepone");
-  };
+  // ✅ DOWNLOAD ANOTHER VIDEO – FULL RESET (Copy & Paste This!)
+const handleDownloadAnother = () => {
+  console.log("🔄 DOWNLOAD ANOTHER VIDEO BUTTON CLICKED");
 
+  try {
+    // List of ALL vidfetch keys to remove
+    const vidfetchKeys = [
+      'vidfetch_url',
+      'vidfetch_data',
+      'vidfetch_platform',
+      'vidfetch_total_items',
+      'vidfetch_completed'
+    ];
+
+    // Remove every key
+    vidfetchKeys.forEach(key => {
+      localStorage.removeItem(key);
+    });
+
+    console.log('✅ All saved data CLEARED – fresh Step One!');
+  } catch (error) {
+    console.warn("⚠️ Failed to clear localStorage:", error);
+  }
+
+  // Go back to Step One with a CLEAN form
+  router.push("/stepone");
+};
   // ✅ UI
   if (showLoading || !videoData) {
     return (
@@ -289,11 +331,7 @@ export default function StepThree() {
 
           <div className={styles.downloadCard}>
             <div className={styles.cardContent}>
-              <img
-                src={videoData.thumbnail}
-                alt={videoData.title}
-                className={styles.cardThumbnail}
-              />
+  <img src={videoData?.thumbnail} alt={videoData?.title} className={styles.cardThumbnail} />
               <div className={styles.cardInfo}>
                 <h3 className={styles.cardTitle}>{videoData.title}</h3>
                 <p className={styles.cardAuthor}>by {videoData.author || 'Unknown'}</p>

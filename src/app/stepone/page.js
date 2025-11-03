@@ -6,6 +6,7 @@ import ButtonLoading from '@/components/ButtonLoading';
 import Steptwo from '../steptwo/page';
 
 import styles from './page.module.css';
+import NativeAd from '@/components/NativeAd';
 
 export default function StepOne() {
   const [showLoading, setShowLoading] = useState(true);
@@ -65,7 +66,7 @@ export default function StepOne() {
     if (lowerUrl.includes('tiktok.com')) return 'TikTok';
     if (lowerUrl.includes('instagram.com')) return 'Instagram';
     if (lowerUrl.includes('facebook.com')) return 'Facebook';
-    if (lowerUrl.includes('twitter.com')) return 'Twitter';
+ if (lowerUrl.includes('twitter.com') || lowerUrl.includes('x.com')) return 'Twitter';
     return null;
   };
 
@@ -185,14 +186,50 @@ export default function StepOne() {
             </div>
 
             {/* URL Input */}
-            <div className={styles.inputGroup}>
-              <input
-                type="text"
-                className={`${styles.input} ${error ? styles.error : ''}`}
-                placeholder="https://www.tiktok.com/@username/video/..."
-                value={url}
-                onChange={(e) => handleUrlChange(e.target.value)}
-              />
+           <div className={styles.inputGroup}>
+  <div className={styles.inputWrapper}>
+    <input
+      type="text"
+      className={`${styles.input} ${error ? styles.error : ''}`}
+      placeholder="https://www.tiktok.com/@username/video/..."
+      value={url}
+      onChange={(e) => handleUrlChange(e.target.value)}
+    />
+    
+    {/* 🔥 PASTE BUTTON */}
+    <button
+      onClick={async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          const cleaned = text.trim();
+          setUrl(cleaned);
+          handleUrlChange(cleaned); // Auto-detect platform!
+          toast.success("✅ URL pasted & detected!", { autoClose: 2000 });
+        } catch (err) {
+          // toast.error("❌ Paste failed. Copy manually.");
+        }
+      }}
+      className={styles.pasteButton}
+      title="Paste URL from clipboard"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+        <polyline points="17 21 17 13 7 13 7 21"/>
+        <polyline points="7 3 12 3 12 8 17 8"/>
+      </svg>
+    </button>
+  </div>
+
+  {/* Error Message */}
+  {error && (
+    <div className={styles.errorMessage}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#dc3545">
+        <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/>
+      </svg>
+      {error}
+    </div>
+  )}
+
               
               {/* Platform Detection Badge */}
               {isDetecting && (
@@ -243,9 +280,9 @@ export default function StepOne() {
               Continue to Preview
             </ButtonLoading>
           </div>
-
+<NativeAd/>
           {/* Recently Downloaded (if any) */}
-          <div className={styles.recentSection}>
+          {/* <div className={styles.recentSection}>
             <h3 className={styles.recentTitle}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="10"/>
@@ -273,7 +310,7 @@ export default function StepOne() {
                 <p className={styles.recentName}>Cooking Tutorial</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

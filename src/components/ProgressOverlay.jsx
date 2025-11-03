@@ -8,7 +8,7 @@ export default function ProgressOverlay({
   onCancel,
   fileName = "video.mp4",
   format = "HD • MP4",
-  fileSize = "24.5 MB",
+  fileSize = "",
   videoTitle = "Amazing Video"
 }) {
   const [progress, setProgress] = useState(0);

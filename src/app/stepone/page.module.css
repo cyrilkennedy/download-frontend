@@ -357,3 +357,31 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.pasteButton {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  color: #888;
+  z-index: 10;
+}
+
+.pasteButton:hover {
+  background: #f0f0f0;
+  color: #10B981;
+  transform: scale(1.15);
+}
+
+.input {
+  padding-right: 50px !important; /* Space for button */
+}

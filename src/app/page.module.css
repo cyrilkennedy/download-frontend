@@ -297,3 +297,31 @@
     font-size: 1.05rem;
   }
 }
+.inputWrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.pasteButton {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  color: #666;
+}
+
+.pasteButton:hover {
+  background: #f0f0f0;
+  color: #10B981;
+  transform: scale(1.1);
+}
+
+.input {
+  padding-right: 50px !important; /* Make room for button */
+}

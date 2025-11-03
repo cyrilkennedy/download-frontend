@@ -119,3 +119,16 @@ button {
     padding: 0 16px;
   }
 }
+
+.Toastify__toast {
+  border-radius: 12px !important;
+  font-weight: 600;
+}
+
+.Toastify__toast--success {
+  background: linear-gradient(135deg, #10B981, #059669) !important;
+}
+
+.Toastify__toast--error {
+  background: linear-gradient(135deg, #EF4444, #DC2626) !important;
+}
