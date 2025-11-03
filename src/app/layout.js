@@ -3,11 +3,12 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import InterstitialAd from '@/components/InterstitialAd';
-import Script from 'next/script';
+import SocialBarAd from '@/components/SocialBarAd';
+import NativeAd from '@/components/NativeAd';
+import BannerAd from '@/components/Banner';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import NativeAd from '@/components/NativeAd';
+import Script from 'next/script';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -36,29 +37,35 @@ export default function RootLayout({ children }) {
         <div className="min-h-screen flex flex-col">
           <Navbar />
 
-          {/* HEADER AD - Shows on ALL pages */}
-          <div className="w-full bg-gray-50 border-y border-gray-200">
+          {/* NATIVE AD AT TOP - Shows on ALL pages */}
+          <div className="w-full bg-gray-50 border-b border-gray-200">
             <div className="container mx-auto px-4">
               <NativeAd position="header" />
             </div>
           </div>
 
-          {/* MAIN CONTENT - Pages control their own content */}
+          {/* Main Content */}
           <main className="flex-1 w-full">
             {children}
           </main>
 
-          {/* FOOTER AD - Shows on ALL pages */}
-          <div className="w-full bg-gray-50 border-t border-gray-200">
-            <div className="container mx-auto px-4">
-              <NativeAd position="footer" />
-            </div>
-          </div>
+          {/* BANNER AD IN MIDDLE - MOVED HERE (before footer) */}
+        {/* BANNER AD IN MIDDLE - with proper styling */}
+<div className="w-full bg-gray-50 border-t border-gray-200">
+  <div className="banner-ad-container">
+    <div className="banner-ad-wrapper">
+      <BannerAd position="middle" />
+    </div>
+  </div>
+</div>
 
-          <InterstitialAd />
           <Footer />
         </div>
 
+        {/* Social Bar Ad (Small bottom banner - 320x50) */}
+        <SocialBarAd />
+
+        {/* Toast Notifications */}
         <ToastContainer
           position="top-right"
           autoClose={5000}
@@ -71,8 +78,6 @@ export default function RootLayout({ children }) {
           pauseOnHover
           theme="colored"
         />
-
-
 
         {/* Google Tag Manager */}
         <Script
@@ -87,21 +92,6 @@ export default function RootLayout({ children }) {
               })(window,document,'script','dataLayer','GTM-52K4X583');
             `,
           }}
-        />
-
-        {/* Interstitial Ad Script */}
-        <Script
-          src="//pl27954555.effectivegatecpm.com/21/81/05/218105b20068189f3aecadb4a665ae0b.js"
-          strategy="afterInteractive"
-          async
-        />
-
-        {/* Native Ad Script */}
-        <Script
-          src="//pl27954563.effectivegatecpm.com/0e1640332d1c1c66fd5db9d9651057fa/invoke.js"
-          strategy="afterInteractive"
-          data-cfasync="false"
-          async
         />
       </body>
     </html>

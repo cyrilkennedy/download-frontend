@@ -131,4 +131,72 @@ button {
 
 .Toastify__toast--error {
   background: linear-gradient(135deg, #EF4444, #DC2626) !important;
+}/* app/globals.css - Add this at the bottom */
+
+/* Force Adsterra Social Bar to bottom */
+/* app/globals.css - Add/update at the bottom */
+
+/* Force bottom native banner to stay at bottom */
+[id*="285733e3805b1e097880a31af72e311e"],
+[id*="container-285733e3805b1e097880a31af72e311e"] {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 9999 !important;
+  background: white !important;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1) !important;
+}
+
+/* Add padding to body so content doesn't hide behind the ad */
+body {
+  padding-bottom: 70px !important; /* 50px ad height + 20px spacing */
+}
+
+/* Make sure the ad iframe fits properly */
+[id*="285733e3805b1e097880a31af72e311e"] iframe {
+  max-width: 320px !important;
+  height: 50px !important;
+}
+
+/* app/globals.css - Add at the bottom */
+
+/* Banner Ad Styling - Center and constrain width */
+.banner-ad-container {
+  max-width: 1200px; /* Match your site's max-width */
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Make banner ad responsive */
+.banner-ad-wrapper {
+  width: 100%;
+  max-width: 320px; /* Ad width + some padding */
+  margin: 0 auto;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Center the actual ad content */
+.banner-ad-wrapper > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Add some breathing room on mobile */
+@media (max-width: 640px) {
+  .banner-ad-container {
+    padding: 1.5rem 0.5rem;
+  }
+  
+  .banner-ad-wrapper {
+    max-width: 100%;
+    padding: 0.75rem;
+  }
 }

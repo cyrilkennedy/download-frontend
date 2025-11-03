@@ -1,27 +1,59 @@
-// // components/Banner.jsx
-// "use client";
+// components/BannerAd.jsx
+'use client';
+import { useEffect, useRef } from 'react';
 
-// import dynamic from 'next/dynamic';
+export default function BannerAd({ position = "middle" }) {
+  const adRef = useRef(null);
+  const scriptAdded = useRef(false);
 
-// const NativeAd = dynamic(() => import('./NativeAd'), { ssr: false });
+  useEffect(() => {
+    if (!adRef.current || scriptAdded.current) return;
 
-// const ids = {
-//   header: 'container-header-native',
-//   middle: 'container-0e1640332d1c1c66fd5db9d9651057fa', // your working native ID
-//   footer: 'container-footer-native',
-// };
+    const zoneId = '0340ae8bf65be2eb5d40f91113763206';
 
-// export default function Banner({ position }) {
-//   return (
-//     <div
-//       className={`
-//         ${position === "header" ? "py-1 bg-gray-50" : ""}
-//         ${position === "middle" ? "my-4" : ""}
-//         ${position === "footer" ? "mt-6 py-2 bg-gray-50" : ""}
-//         flex justify-center
-//       `}
-//     >
-//       <NativeAd id={ids[position]} minHeight={position === 'middle' ? 280 : 200} />
-//     </div>
-//   );
-// }
+    // Create atOptions script
+    const optionsScript = document.createElement('script');
+    optionsScript.type = 'text/javascript';
+    optionsScript.innerHTML = `
+      atOptions = {
+        'key' : '${zoneId}',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    `;
+    adRef.current.appendChild(optionsScript);
+
+    // Add invoke.js script
+    const invokeScript = document.createElement('script');
+    invokeScript.type = 'text/javascript';
+    invokeScript.src = `//www.highperformanceformat.com/${zoneId}/invoke.js`;
+    
+    invokeScript.onload = () => {
+      console.log(`✅ Banner ad loaded at: ${position}`);
+    };
+
+    invokeScript.onerror = () => {
+      console.error(`❌ Failed to load banner at: ${position}`);
+    };
+
+    adRef.current.appendChild(invokeScript);
+    scriptAdded.current = true;
+
+  }, [position]);
+
+  return (
+    <div className="w-full flex justify-center items-center py-6">
+      <div className="text-center max-w-[320px] w-full">
+        <p className="text-xs text-gray-400 mb-3">Advertisement</p>
+        <div 
+          ref={adRef} 
+          className="bg-gray-50 rounded-lg border border-gray-200 p-2 min-h-[250px] flex items-center justify-center"
+        >
+          {/* Banner ad will be injected here */}
+        </div>
+      </div>
+    </div>
+  );
+}

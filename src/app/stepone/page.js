@@ -6,7 +6,7 @@ import ButtonLoading from '@/components/ButtonLoading';
 import Steptwo from '../steptwo/page';
 
 import styles from './page.module.css';
-import NativeAd from '@/components/NativeAd';
+
 
 export default function StepOne() {
   const [showLoading, setShowLoading] = useState(true);
@@ -280,7 +280,7 @@ export default function StepOne() {
               Continue to Preview
             </ButtonLoading>
           </div>
-<NativeAd/>
+
           {/* Recently Downloaded (if any) */}
           {/* <div className={styles.recentSection}>
             <h3 className={styles.recentTitle}>

@@ -7,7 +7,7 @@ import ButtonLoading from '@/components/ButtonLoading';
 import ProgressOverlay from '@/components/ProgressOverlay';
 import { fetchVideoMetadata } from '@/lib/api';
 import styles from './page.module.css';
-import NativeAd from '@/components/NativeAd';
+
 
 export default function Steptwo() {
   const [showLoading, setShowLoading] = useState(true);
@@ -231,7 +231,7 @@ export default function Steptwo() {
                 <h2 className={styles.videoTitle}>{videoData?.title}</h2>
                 <p className={styles.videoAuthor}>by {videoData?.author}</p>
               </div>
-<NativeAd/>
+
               <div className={styles.formatSection}>
                 <h3 className={styles.formatTitle}>Choose Format</h3>
                 <div className={styles.formatGrid}>

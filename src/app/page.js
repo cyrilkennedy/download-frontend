@@ -5,7 +5,7 @@ import LoadingScreen from '@/components/LoadingScreen';
 import ButtonLoading from '@/components/ButtonLoading';
 import styles from './page.module.css';
 import { toast } from 'react-toastify';
-import NativeAd from '@/components/NativeAd';
+
 
 export default function Home() {
   const [showLoading, setShowLoading] = useState(true);
@@ -141,7 +141,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-<NativeAd/>
+
       {/* Features Section */}
       <section className={styles.features} id="platforms">
         <div className={styles.container}>

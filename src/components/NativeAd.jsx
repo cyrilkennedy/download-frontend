@@ -4,43 +4,35 @@ import { useEffect, useRef } from 'react';
 
 export default function NativeAd({ position = "content" }) {
   const adRef = useRef(null);
+  const scriptAdded = useRef(false);
 
   useEffect(() => {
-    if (!adRef.current) return;
+    if (!adRef.current || scriptAdded.current) return;
 
     const zoneId = '0e1640332d1c1c66fd5db9d9651057fa';
-    const containerId = `container-${zoneId}-${position}`;
+    const containerId = `container-${zoneId}`;
 
-    // Create container for this specific ad
+    // Create container
     const container = document.createElement('div');
     container.id = containerId;
     adRef.current.appendChild(container);
 
-    // Wait for invoke.js to be available
-    const initAd = () => {
-      if (window.Option) {
-        window.Option = {
-          key: zoneId,
-          format: 'iframe',
-          height: 250,
-          width: 300,
-          params: {}
-        };
-      }
+    // Add invoke.js script
+    const script = document.createElement('script');
+    script.async = true;
+    script.setAttribute('data-cfasync', 'false');
+    script.src = `//pl27954563.effectivegatecpm.com/${zoneId}/invoke.js`;
+    
+    script.onload = () => {
+      console.log(`✅ Native ad loaded at: ${position}`);
     };
 
-    if (window.Option) {
-      initAd();
-    } else {
-      const checkInterval = setInterval(() => {
-        if (window.Option) {
-          clearInterval(checkInterval);
-          initAd();
-        }
-      }, 100);
+    script.onerror = () => {
+      console.error(`❌ Failed to load ad at: ${position}`);
+    };
 
-      return () => clearInterval(checkInterval);
-    }
+    adRef.current.appendChild(script);
+    scriptAdded.current = true;
 
   }, [position]);
 
