@@ -9,6 +9,7 @@ import BannerAd from '@/components/Banner';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Script from 'next/script';
+import InPagePush from '@/components/InPagePush';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -81,6 +82,10 @@ export default function RootLayout({ children }) {
               <NativeAd position="header" />
             </div>
           </div>
+          <InPagePush />
+
+         
+         
 
           {/* Main Content */}
           <main className="flex-1 w-full">

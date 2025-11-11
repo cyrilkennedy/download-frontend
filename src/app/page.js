@@ -5,6 +5,7 @@ import LoadingScreen from '@/components/LoadingScreen';
 import ButtonLoading from '@/components/ButtonLoading';
 import styles from './page.module.css';
 import { toast } from 'react-toastify';
+import InterstitialAd from '@/components/InterstitialAd';
 
 
 export default function Home() {
@@ -47,6 +48,7 @@ export default function Home() {
 
   return (
     <>
+    <InterstitialAd />
       {showLoading && <LoadingScreen duration={2000} />}
       
       <div className={styles.hero}>
